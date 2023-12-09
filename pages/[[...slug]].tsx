@@ -1,36 +1,20 @@
-// import ComponentSelector from "@/card";
 import DynamicComponent from "@/components/DynamicComponent";
 import Metadata from "@/components/Metadata";
-// import { ComponentCardNo } from "@/constant";
-// import {
-//   ANIMATE,
-//   NEWSLISTPAGESIZE,
-//   SEARCHLISTPAGESIZE,
-//   SEARCHPAGE,
-// } from "@/constant/frozenData";
-import { AllStringType, pageData } from "@/interface";
+import { ArrayItemINT } from "@/interface";
 import { request } from "@/utils/request";
-// import { request } from "@/utils/request";
-// import { dateToFullDate } from "@/utils/tools";
-// import { getServerSideSitemapLegacy } from "next-sitemap";
-import { type FC } from "react";
+import { dateToFullDate } from "@/utils/tool";
+import { getServerSideSitemapLegacy } from "next-sitemap";
+import type { FC } from "react";
 
 interface PageProps {
-  pageData: pageData;
-}
-
-interface litItem {
-  loc: string;
-  lastmod: number;
-  changefreq: string;
-  priority: string;
+  pageData: any;
 }
 
 export const getServerSideProps = async (ctx: any) => {
-  /*   const { res } = ctx;
+  const { res } = ctx;
   const [path] = ctx.resolvedUrl.split("?");
   try {
-    if (path === SEARCHPAGE) {
+    if (path === "/search-result") {
       const res = (await request({
         url: "/page/struct",
         params: { path },
@@ -39,10 +23,11 @@ export const getServerSideProps = async (ctx: any) => {
       const targetObject = res.struct?.find(
         (obj: any) => obj.cardNo === "21001"
       );
-      const { pageCardNo } = targetObject;
+
+      const pageCardNo = targetObject?.pageCardNo;
       let pageNum = Number(ctx.query.pageNum);
       let searchType = Number(ctx.query.searchType);
-      const pageSize = SEARCHLISTPAGESIZE;
+      const pageSize = 10;
       const search = ctx.query.search;
       const data = {
         path,
@@ -55,14 +40,16 @@ export const getServerSideProps = async (ctx: any) => {
           },
         },
       };
+
       const pageData = await request({
         url: "/page/struct",
         method: "POST",
         data,
       });
+      console.log("pageData----------", pageData);
+
       return { props: { pageData } };
     }
-
     if (path === "/sitemap.xml") {
       const res = (await request({
         url: "/page/struct",
@@ -73,7 +60,7 @@ export const getServerSideProps = async (ctx: any) => {
         (obj: any) => obj.cardNo === "21007"
       );
       const { list } = targetObject.card;
-      const turelist = list.map((item: litItem, index: number) => {
+      const turelist = list.map((item: ArrayItemINT, index: number) => {
         return {
           loc: item.loc,
           lastmod: item.lastmod ? dateToFullDate(item.lastmod) : null,
@@ -88,16 +75,20 @@ export const getServerSideProps = async (ctx: any) => {
       data: { path },
       method: "POST",
     })) as { path: any; httpCode: any; redirectUrl: any; struct: any };
-
-    if (path != "/404" && !pageData.path) {
+    if (pageData?.httpCode === 301) {
+      res.statusCode = 301;
       return {
         redirect: {
-          destination: "/404",
-          permanent: false,
+          destination: pageData.redirectUrl,
+          permanent: true,
         },
       };
     }
-
+    if (path != "/404" && !pageData.path) {
+      return {
+        notFound: true,
+      };
+    }
     if (path == "/404" && !pageData.path) {
       return {
         redirect: {
@@ -106,12 +97,12 @@ export const getServerSideProps = async (ctx: any) => {
         },
       };
     }
-    if (pageData.struct.find((item: any) => item.cardNo === "11003")) {
+    if (pageData.struct.find((item: any) => item.cardNo === "11004")) {
       const { pageCardNo } = pageData.struct.find(
-        (item: any) => item.cardNo === "11003"
+        (item: any) => item.cardNo === "11004"
       );
       let pageNum = Number(ctx.query.pageNum ?? 1);
-      const pageSize = NEWSLISTPAGESIZE;
+      const pageSize = 3;
       const data = {
         path,
         params: {
@@ -121,8 +112,7 @@ export const getServerSideProps = async (ctx: any) => {
           },
         },
       };
-      console.log('看看数据',data);
-      
+
       const pageDat = await request({
         url: "/page/struct",
         method: "POST",
@@ -131,76 +121,44 @@ export const getServerSideProps = async (ctx: any) => {
       pageData = pageDat as any;
       return { props: { pageData } };
     }
-    if (pageData.httpCode === 301) {
-      res.writeHead(301, { Location: pageData.redirectUrl });
-      res.end();
-      return {};
-    }
-
-    return { props: { pageData } }; */
-  
-  
-  try {
-    /*     const pageData = {
-      struct: [
-        {
-          cardNo: "9999",
-          card: {
-            title: "X-Next",
+    if (pageData.struct.find((item: any) => item.cardNo === "21023")) {
+      const { pageCardNo } = pageData.struct.find(
+        (item: any) => item.cardNo === "21023"
+      );
+      let pageNum = Number(ctx.query.pageNum ?? 1);
+      const pageSize = 12;
+      const data = {
+        path,
+        params: {
+          [pageCardNo]: {
+            pageNum,
+            pageSize,
           },
-          pageCardNo: "1024",
         },
-      ],
-      tdk: {
-        title: "X-Next",
-        description: "X-Next",
-        key: "X-Next",
-      },
-      iocn: {
-        url: "",
-      },
-    };
-    return {
-      props: {
-        pageData,
-      },
-    }; */
-    const [path] = ctx.resolvedUrl.split("?");
-    console.log('path',path);
-    let pageData = (await request({
-      url: "/page/struct",
-      data: { path },
-      method: "POST",
-    }))
-    
-    
+      };
+
+      const pageDat = await request({
+        url: "/page/struct",
+        method: "POST",
+        data,
+      });
+      pageData = pageDat as any;
+      
+      return { props: { pageData } };
+    }
     return { props: { pageData } };
   } catch (error) {
-    console.log("错误", error);
+    console.warn("Error Happend", error);
     return { props: { pageData: {} } };
   }
 };
 
-const Page: FC<PageProps> = ({ pageData: { struct, tdk, icon } }) => {
-  console.log(struct);
-  
+const Page: FC<PageProps> = ({ pageData: { struct, tdk, icon, path } }) => {
   return (
-    <div
-      className={`${
-        struct?.find((obj: any) => obj.cardNo === "30005")
-          ? "pt-[6.5rem] sm:pt-[4rem] "
-          : ""
-      }`}
-    >
-      <Metadata data={tdk} icon={icon} />
-
+    <div>
+      <Metadata data={tdk} icon={icon} path={path} />
       {struct?.map((item: any, index: any) => (
-        <DynamicComponent
-          cardNo={item.cardNo}
-          data={item.card}
-          key={index}
-          animate={false}
-        />
+        <DynamicComponent cardNo={item.cardNo} data={item.card} key={index} />
       ))}
     </div>
   );

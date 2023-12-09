@@ -1,41 +1,53 @@
-import { ComponentCardNo } from "@/constant";
-//卡片
-export interface CardComponentsProps {
-    cardNo: ComponentCardNo; 
-    data:any
-    animate?:boolean
-    pageCardNo:string
-  }
- 
-  //导航栏
+export interface cardDataINT {
+  data: {
+    [key: string]: any;
+  };
+}
+
+export interface tdk {
+  [key: string]: string;
+}
+
+export type AllStringType = Record<string, string>;
+
+export type ArrayItemINT = Record<string, any>;
+
+export interface CustomImageProps {
+  src: string;
+  h?: number;
+  w?: number;
+  fixed?: string;
+  alt: string;
+  quality?: string;
+  fill: boolean;
+  className?: string;
+  readonly loader?: any;
+}
+
+export interface IconINT {
+  width: string;
+  height: string;
+  fill?: string;
+  className?: string;
+  [key: string]: any;
+}
+
 export interface NavItem {
   menuName: string;
   menuUrl: string;
   children?: NavItem[] | null;
-  [key: string]: any
+  [key: string]: any;
 }
 //导航栏
 export interface SubNavProps {
   readonly navItem: Partial<NavItem>;
+  [key: string]: any;
 }
-
-export interface CustomImageProps {
-  local?: string;
-  src: string;
-  h?: string;
-  w?: string;
-  fixed?: string;
-  alt: string;
-  quality?: string;
-  fill:boolean
-  className?:string
-}
-
 
 export interface MenuItem {
   menuName: string;
-  menuUrl:string
-  children:any
+  menuUrl: string;
+  children: any;
 }
 
 export interface SiteMap {
@@ -44,7 +56,7 @@ export interface SiteMap {
 
 export interface SiteMapProps {
   data: SiteMap;
-  animate:boolean
+  animate: boolean;
 }
 
 export interface MenuProps {
@@ -58,26 +70,6 @@ export interface SubMenuProps {
 export interface LastMenuProps {
   items: MenuItem[];
 }
-export interface FourMenuProps{
+export interface FourMenuProps {
   items: MenuItem[];
 }
-
-
-
-export interface pageData {
-  struct: Array<{
-    [key: string]: any;
-  }>;
-  tdk: tdk;
-  icon:{
-    url:string
-  }
-}
-
-export interface tdk {
-[key:string]:string
-}
-
-export type AllStringType = Record<string,string>
-
-

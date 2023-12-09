@@ -1,38 +1,121 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('./arcoDesign.css');
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+
+/* 设置滚动条的高度 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 16px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* 设置滚动条的背景色 */
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #008974;
+  border-radius: 10px;
+  min-width: 100px;
+}
+
+input:focus {
+  border: #008974 !important;
+}
+
+h1 {
+  font-size: 48px !important;
+}
+
+h2 {
+  font-size: 40px !important;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-/*   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
+  background-color: #FAFAFA !important;
+  font-family: 'Poppins' !important;
+
 }
 
-@keyframes move {
-  from {
-    transform: translate(-100px, -50px) rotate(-90deg);
-    border-radius: 24% 76% 35% 65% / 27% 36% 64% 73%;
-  }
-  to {
-    transform: translate(500px, 100px) rotate(-10deg);
-    border-radius: 76% 24% 33% 67% / 68% 55% 45% 32%;
-  }
+
+
+:is(table, td, thead) {
+  border: #C8C8C8 1px solid !important;
+  padding: 5px;
+}
+
+table tbody tr td:first-child {
+  background-color: #008974 !important;
+  color: white !important;
+}
+
+.arco-tabs-header-nav-card-gutter .arco-tabs-header-title {
+  margin-left: 1.5rem;
+  width: 185px;
+  height: 40px;
+  background: '#F0F0F0';
+}
+
+.arco-tabs-header-title-active {
+  background-color: #059669 !important;
+  color: #fff;
+}
+
+.arco-tabs-header-title-text {
+  margin: auto;
+}
+
+.arco-tabs-header-title-active:hover {
+  color: #fff;
+}
+
+.arco-collapse-item-content-box {
+  padding: 2rem 1.5rem 6rem 1.5rem;
+}
+
+.arco-collapse-item-content {
+  background-color: #fff;
+}
+
+.arco-collapse,
+.arco-collapse-item {
+  border: none;
+}
+
+.arco-collapse-item-content-box {
+  background-color: #FAFAFA;
+}
+
+.arco-collapse-item-header {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+
+}
+
+.arco-collapse-item-header-icon {
+  font-size: 32px;
+}
+
+.arco-icon-down {
+  font-size: 1.875rem;
+}
+
+.arco-tabs-header-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.arco-tabs-header-nav::before {
+  display: none;
+}
+
+
+.arco-tabs-card-gutter>.arco-tabs-content {
+  border: none;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #008974 !important;
 }

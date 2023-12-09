@@ -1,14 +1,8 @@
-"use clinet";
-import { Message } from "@arco-design/web-react";
 import axios, { AxiosRequestConfig, CancelTokenSource } from "axios";
 import qs from "query-string";
 
 export const HOST = process.env.NEXT_PUBLIC_HOST as string;
 export const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN as string;
-console.log('domain是什么', DOMAIN);
-console.log('host是什么',HOST);
-
-
 
 export const request = axios.create({
   baseURL: HOST,
@@ -49,8 +43,6 @@ request.interceptors.request.use(
     removePendingRequest(config);
     addPendingRequest(config);
     config.headers["Domain"] = DOMAIN;
-    console.log( config.headers);
-    
     return config;
   },
   (error) => {
@@ -68,7 +60,7 @@ request.interceptors.response.use(
       return Promise.resolve(data);
     }
 
-    Message.normal(msg);
+    console.log("Accident:", msg);
 
     return Promise.reject(data);
   },
@@ -79,7 +71,7 @@ request.interceptors.response.use(
     if (axios.isCancel(error)) {
       console.warn(`已取消的重复请求：${error.message}`);
     } else {
-      Message.error("网络错误");
+      console.log("Network ERROR!");
       return Promise.reject(error);
     }
   }

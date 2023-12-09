@@ -1,81 +1,27 @@
+import Foo from "@/card/Foo";
 import type { FC, ReactNode } from "react";
 import React from "react";
-import dynamic from "next/dynamic";
 
 interface DynamicComponentProps {
   cardNo: string;
   data: Record<string, any>;
   animate?: boolean;
 }
-const ComponentMap = new Map<string, () => Promise<{ default: FC<any> }>>();
-ComponentMap.set("34004", () => import("@/card/BannerD"));
-ComponentMap.set("31011", () => import("@/card/CarouselH"));
-ComponentMap.set("32005", () => import("@/card/VideoShow"));
-ComponentMap.set("14017", () => import("@/card/CarouselI"));
-ComponentMap.set("13002", () => import("@/card/BottomNewsB"));
-ComponentMap.set("14018", () => import("@/card/ImageTextG"));
-ComponentMap.set("14019", () => import("@/card/ImageTextH"));
-ComponentMap.set("32006", () => import("@/card/VideoShowB"));
-ComponentMap.set("12505", () => import("@/card/TextListA"));
-ComponentMap.set("21025", () => import("@/card/ImageTextI"));
-ComponentMap.set("10015", () => import("@/card/ImageTextJ"));
-ComponentMap.set("14021", () => import("@/card/ImageTextK"));
-ComponentMap.set("31012", () => import("@/card/CarouselJ"));
-ComponentMap.set("21027", () => import("@/card/FilesListA"));
-ComponentMap.set("31013", () => import("@/card/CarouselK"));
-ComponentMap.set("15002", () => import("@/card/ImageTextL"));
-ComponentMap.set("32007", () => import("@/card/VideoShowC"));
-ComponentMap.set("34005", () => import("@/card/BannerE"));
-ComponentMap.set("21028", () => import("@/card/FilesListB"));
-ComponentMap.set("12507", () => import("@/card/TextListB"));
-ComponentMap.set("36002", () => import("@/card/FaqB"));
-ComponentMap.set("12508", () => import("@/card/PureTextD"));
-ComponentMap.set("14024", () => import("@/card/ImageTextM"));
-ComponentMap.set("21026", () => import("@/card/ImageTextN"));
-ComponentMap.set("14022", () => import("@/card/ImageTextO"));
-ComponentMap.set("14026", () => import("@/card/TextListC"));
-ComponentMap.set("21021", () => import("@/card/ImageTextP"));
-ComponentMap.set("21029", () => import("@/card/BannerF"));
-ComponentMap.set("21020", () => import("@/card/ImageTextQ"));
-ComponentMap.set("21023", () => import("@/card/ImageListA"));
-ComponentMap.set("32008", () => import("@/card/VideoListB"));
-ComponentMap.set("14025", () => import("@/card/ImageListB"));
-ComponentMap.set("11004", () => import("@/card/NewsListB"));
-ComponentMap.set("30012", () => import("@/card/SideAffixB"));
-ComponentMap.set("35005", () => import("@/card/FooterCopyrightB"));
-ComponentMap.set("35004", () => import("@/card/FooterInformationB"));
-ComponentMap.set("21022", () => import("@/card/ImageTextR"));
-ComponentMap.set("12504", () => import("@/card/CarouselM"));
-ComponentMap.set("10012", () => import("@/card/CarouselN"));
-ComponentMap.set("12506", () => import("@/card/CarouselL"));
-ComponentMap.set("30011", () => import("@/card/InquiryA"));
-ComponentMap.set("14027", () => import("@/card/ImageTextS"));
-ComponentMap.set("31014", () => import("@/card/CarouselO"));
-ComponentMap.set("10013", () => import("@/card/SideAffixC"));
-ComponentMap.set("37003", () => import("@/card/InquiryB"));
-ComponentMap.set("14028", () => import("@/card/ImageTextT"));
-ComponentMap.set("10014", () => import("@/card/ImageListC"));
-ComponentMap.set("35003", () => import("@/card/PageFooterNavigationA"));
-ComponentMap.set("30010", () => import("@/card/PageHeaderNavigationA"));
-ComponentMap.set("37004", () => import("@/card/InquiryC"));
-ComponentMap.set("21000", () => import("@/card/SiteMap"));
-ComponentMap.set("21030", () => import("@/card/SiteMapHeaderB"));
-ComponentMap.set("12001", () => import("@/card/PureText"));
-ComponentMap.set("11001", () => import("@/card/NewsDetail"));
-ComponentMap.set("21001", () => import("@/card/SearchResult"));
-ComponentMap.set("21031", () => import("@/card/BreadCrumbB"));
-ComponentMap.set("34006", () => import("@/card/BannerG"));
-ComponentMap.set("34007", () => import("@/card/BannerH"));
-ComponentMap.set("10016", () => import("@/card/CarouselP"));
-ComponentMap.set("15003", () => import("@/card/ImageTextU"));
-ComponentMap.set("12008", () => import("@/card/SubmissionSuccessful"));
-ComponentMap.set("21032", () => import("@/card/ImageTextV"));
-ComponentMap.set("21006", () => import("@/card/IframeMap"));
-ComponentMap.set("33000", () => import("@/card/NotFound"));
+const ComponentMap = new Map<string, any>();
+ComponentMap.set("99999", Foo);
 
-const DynamicComponent: FC<DynamicComponentProps> = ({ cardNo, data }): any => {
-  const Component = dynamic(ComponentMap.get(cardNo)!);
-  return <Component data={data} />;
+
+const DynamicComponent: FC<DynamicComponentProps> = ({
+  cardNo,
+  data,
+}): JSX.Element | null => {
+  const SelectedComponent = ComponentMap.get(cardNo);
+
+  if (!SelectedComponent) {
+    return null; // 或者返回默认的组件或错误信息
+  }
+
+  return <SelectedComponent data={data} />;
 };
 
 export default DynamicComponent;

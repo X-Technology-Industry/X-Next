@@ -10,7 +10,7 @@ interface PageProps {
   pageData: any;
 }
 
-export const getServerSideProps = async (ctx: any) => {
+/* export const getServerSideProps = async (ctx: any) => {
   const { res } = ctx;
   const [path] = ctx.resolvedUrl.split("?");
   try {
@@ -151,8 +151,22 @@ export const getServerSideProps = async (ctx: any) => {
     console.warn("Error Happend", error);
     return { props: { pageData: {} } };
   }
-};
+}; */
 
+export const getServerSideProps = async (ctx: any) => {
+  const pageData = {
+    struct: [
+      {
+        cardNo: "99999",
+      },
+    ],
+  };
+  try {
+    return {
+      props: { pageData },
+    };
+  } catch (error) {}
+};
 const Page: FC<PageProps> = ({ pageData: { struct, tdk, icon, path } }) => {
   return (
     <div>
